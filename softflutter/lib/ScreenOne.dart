@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'ScreenTwo.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnePage extends StatefulWidget {
   OnePage({Key key, this.title}) : super(key: key);
@@ -12,6 +13,16 @@ class OnePage extends StatefulWidget {
 
 class _OnePageState extends State<OnePage> {
   @override
+  void initState() {
+    super.initState();
+    _saveCurrentRoute("/ScreenOne");
+  }
+
+  _saveCurrentRoute(String lastRoute) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString('LastScreenRoute', lastRoute);
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -26,7 +37,12 @@ class _OnePageState extends State<OnePage> {
             elevation: 3,
             child: Column(
               children: <Widget>[
-                new Image.asset('images/asd.jpeg',width: 500,height: 100, fit: BoxFit.cover,),
+                new Image.asset(
+                  'images/asd.jpeg',
+                  width: 500,
+                  height: 100,
+                  fit: BoxFit.cover,
+                ),
                 Container(
                     padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
                     child: Column(
@@ -54,14 +70,16 @@ class _OnePageState extends State<OnePage> {
                     child: FlatButton(
                         splashColor: Colors.indigo,
                         color: Colors.white,
-                        onPressed:() {
-                         Navigator.push(context, MaterialPageRoute(builder: (context) => TwoPage() ));
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => TwoPage()));
                         },
                         child: Text(
                           "VER MAS",
                           style: TextStyle(color: Colors.indigo),
-                        )
-                    ),
+                        )),
                   ),
                 )
               ],
